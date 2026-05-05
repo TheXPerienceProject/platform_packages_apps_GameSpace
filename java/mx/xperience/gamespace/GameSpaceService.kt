@@ -165,9 +165,10 @@ class GameSpaceService : Service() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.gs_channel_name)
             val channel = NotificationChannel(
                 "gamespace",
-                "GameSpace Service",
+                name,
                 NotificationManager.IMPORTANCE_LOW
             )
             getSystemService(NotificationManager::class.java)
@@ -177,8 +178,8 @@ class GameSpaceService : Service() {
 
     private fun buildNotification(): Notification {
         return Notification.Builder(this, "gamespace")
-            .setContentTitle("GameSpace")
-            .setContentText("Engine Active")
+            .setContentTitle(getString(R.string.gs_notification_title))
+            .setContentText(getString(R.string.gs_notification_text))
             .setSmallIcon(R.drawable.ic_game_controller)
             .build()
     }

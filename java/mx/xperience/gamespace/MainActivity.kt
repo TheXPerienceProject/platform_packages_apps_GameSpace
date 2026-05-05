@@ -96,10 +96,10 @@ class MainActivity : AppCompatActivity() {
            if (manualGames.contains(pkg)) {
                showRemoveDialog(pkg)
            } else {
-               Toast.makeText(this, "System games cannot be removed", Toast.LENGTH_SHORT).show()
+               Toast.makeText(this, getString(R.string.system_games_no_remove), Toast.LENGTH_SHORT).show()
            }
         }) {
-            Toast.makeText(this, "Opening App Picker...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.open_app_picker_dialog), Toast.LENGTH_SHORT).show()
             showAddGameDialog()
         }
 
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         val tvMessage = layout.findViewById<TextView>(R.id.opt_message)
 
         val coreType = getCpuCoreType()
-        tvMessage.text = "Optimizing for $coreType cores..."
+        tvMessage.text = getString(R.string.optimizing_cpu, coreType)
 
         val toast = Toast(applicationContext)
         toast.duration = Toast.LENGTH_SHORT
@@ -265,7 +265,7 @@ class MainActivity : AppCompatActivity() {
 
         // Mostramos un diálogo nativo del sistema
         android.app.AlertDialog.Builder(this, android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-            .setTitle("Select App to Add")
+            .setTitle(R.string.select_app)
             .setAdapter(adapter) { _, which ->
                 val selectedApp = availableApps[which]
                 addManualGame(selectedApp.packageName)
@@ -273,7 +273,7 @@ class MainActivity : AppCompatActivity() {
                 // Recargamos la lista para que aparezca el nuevo juego
                 setupGameGrid() 
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(R.string.btn_cancel, null)
             .show()
     }
 
@@ -285,7 +285,7 @@ class MainActivity : AppCompatActivity() {
             currentGames.remove(packageName)
             prefs.edit().putStringSet("manual_games", currentGames).commit()
             setupGameGrid() // Recargar la vista
-            Toast.makeText(this, "Game removed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.game_removed), Toast.LENGTH_SHORT).show()
         }
 
         restartGameSpaceService()
@@ -293,12 +293,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRemoveDialog(packageName: String) {
         android.app.AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-        .setTitle("Remove Game")
-        .setMessage("Do you want to remove this app from GameSpace?")
-        .setPositiveButton("Remove") { _, _ ->
+        .setTitle(R.string.remove_game_title)
+        .setMessage(R.string.remove_game_dialog)
+        .setPositiveButton(R.string.btn_remove) { _, _ ->
             removeManualGame(packageName)
         }
-        .setNegativeButton("Cancel", null)
+        .setNegativeButton(R.string.btn_cancel, null)
         .show()
     }
 

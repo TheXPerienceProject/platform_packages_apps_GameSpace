@@ -435,25 +435,25 @@ class PerformanceController(private val context: Context) {
             PerformanceMode.POWER_SAVING -> {
                 btnPowerSaving.background = context.getDrawable(R.drawable.bg_mode_selected)
                 btnPowerSaving.setTextColor(Color.parseColor("#00FFFF"))
-                modeIndicator.text = "ECO"
+                modeIndicator.text = context.getString(R.string.gs_mode_eco)
                 modeIndicator.setTextColor(Color.parseColor("#00FFFF"))
             }
             PerformanceMode.BALANCED -> {
                 btnBalanced.background = context.getDrawable(R.drawable.bg_mode_selected)
                 btnBalanced.setTextColor(Color.parseColor("#00FF41"))
-                modeIndicator.text = "BALANCED"
+                modeIndicator.text = context.getString(R.string.gs_mode_balanced)
                 modeIndicator.setTextColor(Color.parseColor("#00FF41"))
             }
             PerformanceMode.PERFORMANCE -> {
                 btnPerformance.background = context.getDrawable(R.drawable.bg_mode_selected)
                 btnPerformance.setTextColor(Color.parseColor("#FF00FF"))
-                modeIndicator.text = "PERF"
+                modeIndicator.text = context.getString(R.string.gs_mode_performance)
                 modeIndicator.setTextColor(Color.parseColor("#FF00FF"))
             }
             PerformanceMode.TURBO -> {
                 btnTurbo.background = context.getDrawable(R.drawable.bg_mode_selected)
                 btnTurbo.setTextColor(Color.parseColor("#FFA500"))
-                modeIndicator.text = "TURBO"
+                modeIndicator.text = context.getString(R.string.gs_mode_turbo)
                 modeIndicator.setTextColor(Color.parseColor("#FFA500"))
             }
         }
@@ -584,9 +584,9 @@ class PerformanceController(private val context: Context) {
                     }
                 }
 
-                BatteryManager.BATTERY_STATUS_FULL -> append(" Full")
-                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> append(" Not charging")
-                else -> append(" Unknown")
+                BatteryManager.BATTERY_STATUS_FULL -> append(" ${getString(R.string.gs_battery_full)}")
+                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> append(" ${getString(R.string.gs_battery_not_charging)}")
+                else -> append(" ${getString(R.string.gs_battery_unknown)}")
             }
         }
 

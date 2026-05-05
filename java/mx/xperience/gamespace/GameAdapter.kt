@@ -43,6 +43,7 @@ class GameAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val context = holder.itemView.context
         if (holder is GameViewHolder) {
             val game = games[position]
             holder.icon.setImageDrawable(game.icon)
@@ -57,7 +58,7 @@ class GameAdapter(
 
         } else if (holder is AddViewHolder) {
             // Configuramos el look de "Añadir"
-            holder.name.text = "Add Game"
+            holder.name.text = context.getString(R.string.gs_add_game)
             holder.card.setCardBackgroundColor(android.graphics.Color.TRANSPARENT)
             holder.card.setBackgroundResource(R.drawable.bg_add_game)
             holder.icon.setImageResource(android.R.drawable.ic_input_add) // Icono de +

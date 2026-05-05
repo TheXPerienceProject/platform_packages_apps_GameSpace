@@ -4,4 +4,29 @@
  -->
 <resources>
     <string name="app_name">GameSpace</string>
+
+    <!-- CPU -->
+    <string name="optimizing_cpu">Optimizing for %1$s cores…</string>
+
+    <!-- UI and dialogs-->
+    <string name="system_games_no_remove">System games cannot be removed</string>
+    <string name="open_app_picker_dialog">Opening App Picker...</string>
+    <string name="select_app">Select App to Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="game_removed">Game removed</string>
+    <string name="remove_game_title">Remove Game</string>
+    <string name="remove_game_dialog">Do you want to remove this app from GameSpace?</string>
+    <string name="btn_remove">Remove</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="gs_add_game">Add Game</string>
+    <string name="gs_channel_name">GameSpace Service</string>
+    <string name="gs_notification_title">GameSpace</string>
+    <string name="gs_notification_text">Engine Active</string>
+    <string name="gs_mode_eco">ECO</string>
+    <string name="gs_mode_balanced">BALANCED</string>
+    <string name="gs_mode_performance">PERF</string>
+    <string name="gs_mode_turbo">TURBO</string>
+    <string name="gs_battery_full">Full</string>
+    <string name="gs_battery_not_charging">Not charging</string>
+    <string name="gs_battery_unknown">Unknown</string>
 </resources>
