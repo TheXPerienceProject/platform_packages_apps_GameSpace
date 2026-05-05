@@ -4,7 +4,28 @@
       SPDX-License-Identifier: Apache-2.0
  -->
 <resources>
+    <string name="app_name">Espacios de Juegos</string>
     <!-- CPU -->
+    <string name="optimizing_cpu">Optimizando para núcleos %1$s…</string>
     <!-- UI and dialogs-->
+    <string name="system_games_no_remove">Los juegos del sistema no se pueden eliminar de la lista</string>
+    <string name="open_app_picker_dialog">Abriendo selector de aplicaciones...</string>
+    <string name="select_app">Seleccione la aplicación a añadir</string>
     <string name="cancel">Cancelar</string>
+    <string name="game_removed">Juego eliminado</string>
+    <string name="remove_game_title">Eliminar juego</string>
+    <string name="remove_game_dialog">¿Quieres eliminar esta aplicación de GameSpace?</string>
+    <string name="btn_remove">Borrar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="gs_add_game">Añadir Juego</string>
+    <string name="gs_channel_name">Servicio de GameSpace</string>
+    <string name="gs_notification_title">Espacio de juegos</string>
+    <string name="gs_notification_text">Motor activo</string>
+    <string name="gs_mode_eco">ECO</string>
+    <string name="gs_mode_balanced">BALANCED</string>
+    <string name="gs_mode_performance">PERF</string>
+    <string name="gs_mode_turbo">TURBO</string>
+    <string name="gs_battery_full">Llena</string>
+    <string name="gs_battery_not_charging">Sin cargar</string>
+    <string name="gs_battery_unknown">Desconocido</string>
 </resources>
