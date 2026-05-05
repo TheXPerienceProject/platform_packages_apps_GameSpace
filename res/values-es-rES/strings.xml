@@ -4,7 +4,7 @@
       SPDX-License-Identifier: Apache-2.0
  -->
 <resources>
-    <string name="app_name">Espacios de Juegos</string>
+    <string name="app_name">Espacio de juegos</string>
     <!-- CPU -->
     <string name="optimizing_cpu">Optimizando para núcleos %1$s…</string>
     <!-- UI and dialogs-->
