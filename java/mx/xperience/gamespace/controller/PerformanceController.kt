@@ -584,9 +584,9 @@ class PerformanceController(private val context: Context) {
                     }
                 }
 
-                BatteryManager.BATTERY_STATUS_FULL -> append(" ${getString(R.string.gs_battery_full)}")
-                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> append(" ${getString(R.string.gs_battery_not_charging)}")
-                else -> append(" ${getString(R.string.gs_battery_unknown)}")
+                BatteryManager.BATTERY_STATUS_FULL -> append(" ${context.getString(R.string.gs_battery_full)}")
+                BatteryManager.BATTERY_STATUS_NOT_CHARGING -> append(" ${context.getString(R.string.gs_battery_not_charging)}")
+                else -> append(" ${context.getString(R.string.gs_battery_unknown)}")
             }
         }
 
