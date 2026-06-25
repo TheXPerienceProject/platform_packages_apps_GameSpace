@@ -1,11 +1,1 @@
 allow system_app proc_sched:file rw_file_perms;
-allow system_app vendor_sysfs_msm_perf:dir search;
-allow system_app vendor_sysfs_kgsl:lnk_file { read };
-allow system_app vendor_sysfs_kgsl:file { read open getattr };
-allow system_app vendor_sysfs_kgsl_gpuclk:file { read open getattr };
-allow system_app vendor_sysfs_msm_perf:dir search;
-
-allow system_app vendor_sysfs_sde_crtc:dir search;
-allow system_app vendor_sysfs_sde_crtc:file r_file_perms;
-allow system_app vendor_sysfs_graphics:file r_file_perms;
-allow system_app vendor_sysfs_graphics:dir search;
