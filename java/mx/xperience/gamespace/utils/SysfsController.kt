@@ -296,7 +296,8 @@ class SysfsController {
                 "/sys/devices/platform/gpu.0/clock",
                 "/sys/devices/platform/gpu/clock",
                 "/sys/class/misc/mali0/device/clock",
-                "/sys/devices/platform/14ac0000.mali/devfreq/14ac0000.mali/cur_freq"
+                "/sys/devices/platform/14ac0000.mali/devfreq/14ac0000.mali/cur_freq",
+                "sys/class/misc/mali0/device/devfreq/13000000.mali/cur_freq" // Dimensity 8400Ultra poco x7 pro
             )
 
             for (path in maliPaths) {
