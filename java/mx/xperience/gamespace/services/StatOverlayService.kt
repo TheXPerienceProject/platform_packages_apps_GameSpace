@@ -26,10 +26,12 @@ class StatOverlayService : Service() {
     private lateinit var statView: View
 
     private val handler = Handler(Looper.getMainLooper())
-    private val fpsMonitor = FPSMonitor()
+    // Pass the context so FPSMonitor can access system services like WindowManager
+    // and ActivityTaskManager for TaskFpsCallback.
+    private val fpsMonitor = FPSMonitor(this)
     private val sysfsController = SysfsController()
 
-    // Referencias del layout overlay_stat_bar.xml
+    // References from overlay_stat_bar.xml
     private lateinit var tvFps: TextView
     private lateinit var tvCpu: TextView
     private lateinit var tvGpu: TextView
@@ -47,7 +49,7 @@ class StatOverlayService : Service() {
 
         statView = LayoutInflater.from(this).inflate(R.layout.overlay_stat_bar, null)
 
-        // Asignar IDs (Asegúrate que existan en tu overlay_stat_bar.xml)
+        // Ensure these IDs exist in your overlay_stat_bar.xml
         tvFps = statView.findViewById(R.id.overlay_fps)
         tvCpu = statView.findViewById(R.id.overlay_cpu)
         tvGpu = statView.findViewById(R.id.overlay_gpu)
@@ -60,11 +62,13 @@ class StatOverlayService : Service() {
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-            y = 50 // Ajustar para que no tape la cámara/notch
+            y = 50 // Adjust so it doesn't cover the camera/notch
         }
 
         windowManager.addView(statView, params)
 
+        // Start monitoring FPS. TaskFpsCallback will be used if available,
+        // otherwise it falls back to Choreographer.
         fpsMonitor.start()
         handler.post(updateRunnable)
     }
@@ -73,15 +77,16 @@ class StatOverlayService : Service() {
         // Usamos la lógica que ya tienes en tus utilidades
         val currentFps = fpsMonitor.getCurrentFps()
 
+        // Neon colors based on FPS range – keep it flashy.
         when {
             currentFps >= 90 -> tvFps.setTextColor(Color.parseColor("#00FFFF")) // Cyan neón
-            currentFps >= 60 -> tvFps.setTextColor(Color.parseColor("#00FF41")) // Verde neón
+            currentFps >= 60 -> tvFps.setTextColor(Color.parseColor("#00FF41")) // Green neón
             else -> tvFps.setTextColor(Color.RED)
         }
 
         tvFps.text = "$currentFps FPS"
 
-        // Obtenemos temperaturas/frecuencias de tu SysfsController
+        // CPU/GPU temps from SysfsController – not related to FPS monitoring.
         tvCpu.text = "CPU: ${sysfsController.getCpuTemperature()}"
 
         // Tu SysfsController devuelve un Pair(Freq, Temp) para la GPU

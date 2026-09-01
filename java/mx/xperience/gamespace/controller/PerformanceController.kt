@@ -62,7 +62,8 @@ class PerformanceController(private val context: Context) {
 
     private val handler = Handler(Looper.getMainLooper())
     private val perfManager = PerformanceManager(context)
-    private val fpsMonitor = FPSMonitor()
+    // Pass the context to FPSMonitor so it can access system services.
+    private val fpsMonitor = FPSMonitor(context)
 
     private var currentGame: String? = null
     private var currentMode = PerformanceMode.BALANCED
@@ -165,6 +166,9 @@ class PerformanceController(private val context: Context) {
     }
 
     fun onPanelOpened() {
+        // Start FPS monitoring. We don't pass a Window because TaskFpsCallback
+        // (the primary source) doesn't need one. FrameMetrics will be used as
+        // fallback if TaskFpsCallback isn't available.
         fpsMonitor.start()
         startFpsUpdates()
     }
@@ -254,8 +258,7 @@ class PerformanceController(private val context: Context) {
      * Updates RAM usage UI in the overlay panel.
      */
     private fun updateRamUI() {
-        val activityManager =
-        context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
         val memoryInfo = ActivityManager.MemoryInfo()
         activityManager.getMemoryInfo(memoryInfo)
@@ -279,9 +282,7 @@ class PerformanceController(private val context: Context) {
         }
     }
 
-    /* update GPU info overlay
-     *
-     */
+    /* update GPU info overlay */
     private fun gpuUpdateUI(){
         val gpuVal = panelView?.findViewById<TextView>(R.id.gpu_val)
         val gpuTemp = panelView?.findViewById<TextView>(R.id.gpu_temp)
