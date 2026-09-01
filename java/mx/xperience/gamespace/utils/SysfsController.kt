@@ -255,7 +255,7 @@ class SysfsController {
         }
     }
 
-     fun getGpuFreq(): Pair<Int, String> {
+    fun getGpuFreq(): Pair<Int, String> {
         var freq = 0
         var temp = "N/A"
 
@@ -271,7 +271,7 @@ class SysfsController {
             "/sys/class/thermal/thermal_zone12/temp"
         )
 
-        // Buscar frecuencia - estilo compatible
+        // Qualcomm / Adreno
         for (path in qcomFreqPaths) {
             val value = SysFsManager.tryReadFileAsLong(path)
             if (value > 0) {
@@ -280,23 +280,23 @@ class SysfsController {
             }
         }
 
-        // Buscar temperatura
-        for (tPath in qcomTempPaths) {
-            val tempValue = SysFsManager.tryReadFileAsLong(tPath)
-            if (tempValue > 0) {
-                temp = String.format("%.1f°C", tempValue / 1000.0)
-                break
+        if (freq > 0) {
+            for (tPath in qcomTempPaths) {
+                val tempValue = SysFsManager.tryReadFileAsLong(tPath)
+                if (tempValue > 0) {
+                    temp = String.format("%.1f°C", tempValue / 1000.0)
+                    break
+                }
             }
-        }
-
-        if (freq == 0) {
-            // Mali
+        } else {
+            // Mali / MediaTek
             val maliPaths = listOf(
                 "/sys/devices/platform/ffe40000.gpu/clock",
                 "/sys/devices/platform/gpu.0/clock",
                 "/sys/devices/platform/gpu/clock",
                 "/sys/class/misc/mali0/device/clock",
-                "/sys/devices/platform/14ac0000.mali/devfreq/14ac0000.mali/cur_freq"
+                "/sys/devices/platform/14ac0000.mali/devfreq/14ac0000.mali/cur_freq",
+                "/sys/class/devfreq/13000000.mali/cur_freq" // Dimensity 8400-Ultra
             )
 
             for (path in maliPaths) {
@@ -305,6 +305,37 @@ class SysfsController {
                     freq = (value / 1000000).toInt()
                     break
                 }
+            }
+
+            // Generic fallback for /sys/class/devfreq/<address>.mali/cur_freq.
+            if (freq == 0) {
+                File("/sys/class/devfreq")
+                    .listFiles { file -> file.name.endsWith(".mali") }
+                    ?.forEach { mali ->
+                        val value = SysFsManager.tryReadFileAsLong("${mali.path}/cur_freq")
+                        if (value > 0 && freq == 0) {
+                            freq = (value / 1000000).toInt()
+                        }
+                    }
+            }
+
+            // MTK exposes multiple GPU thermal sensors (gpu0, gpu1, gpu2...).
+            // Report the hottest sensor instead of depending on thermal_zone numbers.
+            val gpuTemps = File("/sys/class/thermal")
+                .listFiles { file -> file.name.startsWith("thermal_zone") }
+                ?.mapNotNull { zone ->
+                    val type = read("${zone.path}/type") ?: return@mapNotNull null
+                    if (!type.matches(Regex("^gpu\\d+$", RegexOption.IGNORE_CASE))) {
+                        return@mapNotNull null
+                    }
+
+                    SysFsManager.tryReadFileAsLong("${zone.path}/temp")
+                        .takeIf { it > 0 }
+                }
+                .orEmpty()
+
+            gpuTemps.maxOrNull()?.let { tempValue ->
+                temp = String.format("%.1f°C", tempValue / 1000.0)
             }
         }
 
