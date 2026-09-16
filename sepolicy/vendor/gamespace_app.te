@@ -16,10 +16,6 @@ allow gamespace_app proc_stat:file r_file_perms;
 allow gamespace_app sysfs:dir r_dir_perms;
 allow gamespace_app sysfs:lnk_file { getattr read };
 
-# MediaTek / Mali GPU
-allow gamespace_app sysfs:file r_file_perms;
-allow gamespace_app sysfs_therm:file r_file_perms;
-
 # Service Manager
 allow gamespace_app servicemanager:binder { call transfer };
 allow gamespace_app activity_service:service_manager find;

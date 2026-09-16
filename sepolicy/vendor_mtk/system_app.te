@@ -1,0 +1,2 @@
+allow system_app sysfs_therm:dir { read search open };
+allow system_app sysfs_therm:file r_file_perms;
